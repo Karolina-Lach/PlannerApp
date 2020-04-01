@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ApiLibrary;
+using Newtonsoft.Json.Linq;
 
 namespace PlannerApp
 {
@@ -30,6 +32,7 @@ namespace PlannerApp
         public MainWindow()
         {
             InitializeComponent();
+            ApiHelper.InitializeClient();
 
             items.Add(new TodoItem() { Description = "Complete this project", Deadline = new DateTime(2020, 5, 1), IsDone = false });
             items.Add(new TodoItem() { Description = "Review exam material", Deadline = new DateTime(2020, 6, 1), IsDone = false });
@@ -54,6 +57,45 @@ namespace PlannerApp
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
             items.Remove((TodoItem)todoList.SelectedItem);
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadInfo();
+        }
+
+        private async Task LoadInfo(string name = "Wrocław")
+        {
+            var weather = await WeatherProcessor.LoadWeatherInfo(name);
+            double temp = weather.main.temp;
+            int celsius = (int)(temp - 273.15);
+            temperatureText.Text = $"{ celsius } ℃";
+
+            Weather[] array = weather.weather.ToArray();
+
+            descText.Text = array[0].description;
+
+            string img = $"http://openweathermap.org/img/wn/{ array[0].icon }@2x.png";
+            var uriSource = new Uri(img, UriKind.Absolute);
+            weatherImage.Source = new BitmapImage(uriSource);
+
+            City.nameOfTheCity = weather.name;
+            cityName.Text = City.nameOfTheCity;
+
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CityForm cityForm = new CityForm();
+
+            cityForm.Show();
+
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await LoadInfo(City.nameOfTheCity);
         }
     }
 }
