@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlannerApp"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="MainWindow" Height="600" Width="900">
+        Title="MainWindow" Height="700" Width="1000">
     <DockPanel>
         <!-- NAGŁÓWEK -->
         <Label DockPanel.Dock="Top" Content="Planner" HorizontalAlignment="Center" FontFamily="Franklin Gothic Heavy" FontSize="24" FontWeight="Bold" >
@@ -16,8 +16,147 @@
         <!-- KONIEC NAGŁÓWKA -->
         
         <!-- PLANNER -->
-        <Grid DockPanel.Dock="Left" Width="600">
-            <Label Content="COŚ TU BĘDZIE" />
+        <Grid DockPanel.Dock="Left" Width="700" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+
+            <!-- PRZYCISKI NEXT I PREV -->
+            <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="0,20,0,0">
+                <Button Width="35" Height="35" Click="PrevWeek_Click">
+                    <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\prev.png" Width="30" Height="30"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="0,20,0,0">
+                <Button Width="35" Height="35" Click="NextWeek_Click">
+                    <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\next.png" Width="30" Height="30"/>
+                </Button>
+            </Grid>
+            <!-- WYPISANIE GODZIN -->
+            <Label Grid.Column="0" Grid.Row="1" Content="7:00" />
+            <Label Grid.Column="0" Grid.Row="2" Content="8:00" />
+            <Label Grid.Column="0" Grid.Row="3" Content="9:00" />
+            <Label Grid.Column="0" Grid.Row="4" Content="10:00" />
+            <Label Grid.Column="0" Grid.Row="5" Content="11:00" />
+            <Label Grid.Column="0" Grid.Row="6" Content="12:00" />
+            <Label Grid.Column="0" Grid.Row="7" Content="13:00" />
+            <Label Grid.Column="0" Grid.Row="8" Content="14:00" />
+            <Label Grid.Column="0" Grid.Row="9" Content="15:00" />
+            <Label Grid.Column="0" Grid.Row="10" Content="16:00" />
+            <Label Grid.Column="0" Grid.Row="11" Content="17:00" />
+            <Label Grid.Column="0" Grid.Row="12" Content="18:00" />
+            <!-- WYPISANIE DNI TYGODNIA -->
+            <Grid Grid.Column="1" Grid.Row="0" ShowGridLines="True" VerticalAlignment="Center" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Monday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock x:Name="dateMonday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Label Grid.Column="1" Grid.Row="3" x:Name="Monday9"/>
+            <Grid Grid.Column="2" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Tuesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock x:Name="dateTuesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="3" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Wednesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" />
+                    <TextBlock x:Name="dateWednesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="4" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Thursday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock x:Name="dateThursday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="5" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Friday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock x:Name="dateFriday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="6" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Saturday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,-1,0,0" />
+                    <TextBlock x:Name="dateSaturday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="7" Grid.Row="0" >
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Sunday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock x:Name="dateSunday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Grid>
+            
+            <!-- SIATKA KALENDARZA -->
+            <Grid x:Name="calendar" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="12" ShowGridLines="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            
+            <!-- DODAWANIE NOWEGO WYDARZENIA -->
+            <StackPanel Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="2">
+                <Label  Content="Pick a date in a current week:" />
+                <DatePicker Name="eventDate"/>
+            </StackPanel>
+            <StackPanel Grid.Column="3" Grid.Row="13" >
+                <Label  Content="From:" HorizontalAlignment="Center" />
+                <TextBox x:Name="hourBeginnig" Width="50"/>
+                <Label  Content="To:" HorizontalAlignment="Center" />
+                <TextBox x:Name="hourEnd" Width="50"/>
+            </StackPanel>
+            <StackPanel Grid.Column="4" Grid.Row="13" Grid.ColumnSpan="2">
+                <Label Content="Enter the name of the event" />
+                <TextBox x:Name="nameEvent" />
+            </StackPanel>
+            <Button Grid.Column="6" Grid.Row="13" Content="Add" Width="50" Height="20" Click="AddEvent_Click"/>
         </Grid>
         <!-- KONIEC PLANNERA -->
 
@@ -33,7 +172,7 @@
             </Grid.RowDefinitions>
             
             <!-- POGODA -->
-            <Grid Grid.Row="0" HorizontalAlignment="Center" Width="200" Height="150">
+            <Grid Grid.Row="0" HorizontalAlignment="Center" Width="300" Height="150">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -54,10 +193,11 @@
                     </StackPanel>
                 </Grid>
                 <TextBlock  Grid.Row="1" x:Name="cityName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5"  >
-                    <Button Content="Change the city" Width="100" FontSize="10" Margin="0,0,20,0" Click="Button_Click" />
-                    <Button Click="Button_Click_1" >
-                        <Image  Source="C:\Users\klach\source\repos\WeatherApp\WeatherApp\load.png" Width="15"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5"  >
+                    <TextBox Name ="cityNameForm" Width="120" Margin="0,0,5,0" />
+                    <Button Content="Change the city" Width="100" FontSize="10" Click="ChangeCity_Click" Margin="0,0,5,0" />
+                    <Button Click="Reload_Click" >
+                        <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\load.png" Width="15"/>
                     </Button>
 
                 </StackPanel>
@@ -91,7 +231,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <!-- KONIEC PLANNERA -->
+        <!-- KONIEC LISTY -->
 
     </DockPanel>
 </Window>
