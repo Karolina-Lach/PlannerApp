@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace ApiLibrary
 {
-    /* Klasa przechowująca nazwę miasta z którego wyświetlana jest pogoda */
+    /// <summary>
+    /// Statyczna klasa <c>City</c>.
+    /// Przechowuje nazwę miasta, z którego wyświetlana jest pogoda.
+    /// </summary>
     public static class City
     {
         public static string nameOfTheCity { get; set; }

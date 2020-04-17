@@ -8,11 +8,20 @@ using System.Threading.Tasks;
 
 namespace ApiLibrary
 {
-    /* Klasa inicjująca klienta http */
+    /// <summary>
+    /// Statyczna klasa <c>ApiHelper</c>
+    /// Klasa inicjująca klienta HTTP.
+    /// </summary>
     public static class ApiHelper
     {
+        /// <summary>
+        /// Przechowuje klienta API
+        /// </summary>
         public static HttpClient ApiClient { get; set; }
 
+        /// <summary>
+        /// Inicjuje klienta Http
+        /// </summary>
         public static void InitializeClient()
         {
             ApiClient = new HttpClient();

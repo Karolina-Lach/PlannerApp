@@ -17,20 +17,92 @@ using ApiLibrary;
 using Newtonsoft.Json.Linq;
 
 namespace PlannerApp
-{
+    {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Główna klasa <c>MainWindow</c>
+    /// Zawiera wszystkie metody odpowiedzialne za wyświetlanie elementów w głównym oknie aplikacji
+    /// <list type="bullet">
+    /// <item>
+    ///     <term> Main Window </term>
+    ///     <description>Inicjalizacja elementów</description>
+    /// </item>
+    /// <item>
+    ///     <term>AddItem_Click</term>
+    ///     <description>Dodanie elementu do listy Todo</description>
+    /// </item>
+    /// <item>
+    ///     <term>RemoveItem_Click</term>
+    ///     <description>Usuwnie elementu z listy Todo</description>
+    /// </item>
+    /// <item>
+    ///     <term>Window_Loaded</term>
+    ///     <description>Ładowanie pobranych danych z API</description>
+    /// </item>
+    /// <item>
+    ///     <term>LoadInfo</term>
+    ///     <description>Wyodrębnienie potrzebnych danych z pliku JSON</description>
+    /// </item>
+    /// <item>
+    ///     <term>ChangeCity_Click</term>
+    ///     <description>Zmiana miasta</description>
+    /// </item>
+    /// <item>
+    ///     <term>Reload_Click </term>
+    ///     <description>Ponowne pobranie danych z API</description>
+    /// </item>
+    /// <item>
+    ///     <term>CreateTextBoxEvent</term>
+    ///     <description>Tworzenie TextBoxu do wyświetlania wydarzenia</description>
+    /// </item>
+    /// <item>
+    ///     <term>AddEventToTheGrid</term>
+    ///     <description>Dodanie wydarzenia do siatki kalendarza</description>
+    /// </item>
+    /// <item>
+    ///     <item>AddEventsInWeek</item>
+    ///     <description>Dodanie wydarzeń z wybranego tygodnia</description>
+    /// </item>
+    /// <item>
+    ///     <term>InitializeWeek</term>
+    ///     <description>Inicjalizacja tygodnia</description>
+    /// </item>
+    /// <item>
+    ///     <term>PrintWeekDates</term>
+    ///     <description>Wyświetlanie dat z tygodnia</description>
+    /// </item>
+    /// <item>
+    ///     <term>NextWeek_Click</term>
+    ///     <description>Przejscie do następnego tygodnia</description>
+    /// </item>
+    /// <item>
+    ///     <term>PrevWeek_Click</term>
+    ///     <description>Przejscie do poprzedniego tygodnia</description>
+    /// </item>
+    /// <item>
+    ///     <term>AddEvent_Click</term>
+    ///     <description>Dodanie nowego wydarzenia</description>
+    /// </item>
+    /// <item>
+    ///     <term>IsDateCorrect</term>
+    ///     <description>Sprawdzenie poprawności daty</description>
+    /// </item>
+    /// <item>
+    ///     <term>IsHourCorrect</term>
+    ///     <description>Sprawdzenie poprawności godziny</description>
+    /// </item>
+    /// </list>
+    /// 
     /// </summary>
     public partial class MainWindow : Window
-    { /// <summary>
-      /// Logika interakcji dla klasy MainWindow.xaml
-      /// Pierwsze podejście do Todo List
-      /// Zadania są na razie są zakodowane na sztywno -- póżniej powinny być wczytywane z bazy danych
-      /// Można dodać zadanie i usunąć wybrane zadanie
-      /// </summary>
+    { 
         ObservableCollection<TodoItem> items = new ObservableCollection<TodoItem>();
         DateTime currentMonday = Functions.FirstDayOfWeek(DateTime.Today).Date;   // szukanie daty poniedziałku w obecnym tygodniu
         Week week;
+
+        
+        /// <summary>
+        /// Funkcja inicjująca elementy w Main Window
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -65,37 +137,67 @@ namespace PlannerApp
             todoList.ItemsSource = items;
         }
 
+
+        /// <summary>
+        /// Dodaje nowy element do Todo list po naciśnięciu przycisku
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Jeśli TextBox nie jest pusty i data została wybrana, dodaje nowy element do listy.
+        /// Jeśli TextBox jest pusty albo data nie została wybrana, wyświetla komunikat. 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
+            
             if (!string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate != null)
             {
                 items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
                 todoList.ItemsSource = items;
             }
+            
             else
             {
                 MessageBox.Show("Fill all the fields, please");
             }
         }
 
+
+        /// <summary>
+        /// Usuwa zaznaczony element z Todo List
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
             items.Remove((TodoItem)todoList.SelectedItem);
         }
 
         /****************** FUNKCJE POGODY ************************/
+
+        /// <summary>
+        /// Ładuje i wyświetla informacje pobrane z zewnętrznego systemu API
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Zobacz <see cref="MainWindow.LoadInfo"/> do pobierania informacji z API/>
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadInfo();
         }
 
-        // Pobieranie informacji z API i wyświetlanie ich
+        
+        /// <summary>
+        /// Wyodrębnia potrzebne dane z pliku JSON
+        /// </summary>
+        /// <returns></returns>
+        /// Zobacz <see cref="WeatherProcessor.LoadWeatherInfo(string)"/> do połączeniz systemem API
+        
         private async Task LoadInfo()
         {
             if(City.nameOfTheCity == null)
             {
                 City.nameOfTheCity = "Wrocław";
             }
+
             var weather = await WeatherProcessor.LoadWeatherInfo(City.nameOfTheCity);
             double temp = weather.main.temp;
             int celsius = (int)(temp - 273.15);
@@ -114,7 +216,14 @@ namespace PlannerApp
 
         }
 
-        // Formularz do zmiany miasta
+        
+        /// <summary>
+        /// Po wciśnięciu przycisku "Change City" zmienia miasto, o którym wyświetlane są informacje pogodowe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Jeśli TextBox nie jest pusty, zmienia nazwę miasta i ponownie łączy się z API
+        /// Jeśli TextBox jest pusty, wyświetla odpowiedni komunikat
         private async void ChangeCity_Click(object sender, RoutedEventArgs e)
         {
             if(!string.IsNullOrEmpty(cityNameForm.Text))
@@ -128,7 +237,12 @@ namespace PlannerApp
             }
         }
 
-        // Załaduj ponownie pogode
+        
+        /// <summary>
+        /// Po wciśnieciu przycisku Reload, ponownie ładuje informacje o pogodzie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Reload_Click(object sender, RoutedEventArgs e)
         {
             await LoadInfo();
@@ -136,9 +250,15 @@ namespace PlannerApp
 
 
         /*********** FUNKCJE PLANNERA ************************/
-
-        // Tworzenie nowego TextBoxa w którym wyświetlane będzie wydarzenie
-        private void CreateLabel(int Column, int Row, string Description, int span)
+        /// <summary>
+        /// Tworzy nowy TextBox, w którym zostanie wypisane nowe wydarzenie w kalendarzu
+        /// </summary>
+        /// <param name="Column">Numer kolumny w siatce kalendarza, w której ma zostać utworzony nowy TextBox</param>
+        /// <param name="Row">Numer wiersze w siatce kalendarza, w której ma zostać utworzony nowy TextBox</param>
+        /// <param name="Description">Nazwa wydarzenia wyświetlana na ekranie</param>
+        /// <param name="span">Ile wierszy (godzin) zajmuje wydarzenie </param>
+        /// Zobacz <see cref="MainWindow.AddEventToTheGrid(EventItem)"/>
+        private void CreateTextBoxEvent(int Column, int Row, string Description, int span)
         {
             TextBox text = new TextBox()
             {
@@ -153,59 +273,56 @@ namespace PlannerApp
             text.SetValue(Grid.RowSpanProperty, span);
         }
 
-        // Wyświetlanie nowego wydarzenia w siatce kalendarza
-        private void addEventToTheGrid(EventItem eventItem)
+        
+        /// <summary>
+        /// Dodaje wydarzenie do siatki kalendarza 
+        /// </summary>
+        /// <param name="eventItem">Wydarzenie, które ma zostać wyświetlone </param>
+        /// Zobacz <see cref="MainWindow.AddEventsInWeek(Week)"/>
+        private void AddEventToTheGrid(EventItem eventItem)
         {
-            int column = DayToColumn(eventItem.Date);
-            int row = HourToRow(eventItem.Beginning);
+            int column = Functions.DayToColumn(eventItem.Date);
+            int row = Functions.HourToRow(eventItem.Beginning);
             string desc = eventItem.Name;
             int span = eventItem.End - eventItem.Beginning;
 
-            CreateLabel(column, row, desc, span);
+            CreateTextBoxEvent(column, row, desc, span);
         }
 
-        // Dodawnie eventów z danego tygodnia do siatki 
-        private void FindEvents(Week week)
+        /// <summary>
+        /// Dodaje wszystkie wydarzenia z danego tygodnia do siatki kalendarza 
+        /// </summary>
+        /// <param name="week">Aktualnie wyświetlany tydzień </param>
+        /// Zobacz <see cref="MainWindow.InitializeWeek(DateTime)"/>
+        private void AddEventsInWeek(Week week)
         {
-
             foreach (var eventItem in week.Events)
             {
-                addEventToTheGrid(eventItem);
+                AddEventToTheGrid(eventItem);
             }
         }
 
-        // Zmiana godziny rozpoczęcia na odpowiedni rząd w siatce
-        private int HourToRow(int hour)
-        {
-            return hour - 7;
-        }
-
-        // Zmiana dnia na odpowiednią kolumnę  w siatce
-        private int DayToColumn(DateTime date)
-        {
-            int day = (int)date.DayOfWeek;
-            if (day > 0)
-            {
-                return day - 1;
-            }
-            else
-            {
-                return 6;
-            }
-        }
-
-        // Inicjowanie tygodnia
-        // Na podstawie poniedziałkowej daty, generowane są daty całego tygodnia i wypisywanie zdarzeń które mają miejsce w tym tygodniu
+        /// <summary>
+        /// Inicjowanie całego tygodnia
+        /// </summary>
+        /// <param name="Date"></param>
+        /// <returns></returns>
+        /// Na podstawie poniedziałkowej daty, generowane są daty całego tygodnia i wypisywane zdarzenia, które mają miejsce w tym tygodniu
         private Week InitializeWeek(DateTime Date)
         {
-
             Week week = new Week(Date.Date);
-            printWeekDates(week);
-            FindEvents(week);
+            PrintWeekDates(week);
+            AddEventsInWeek(week);
             return week;
         }
 
-        private void printWeekDates(Week week)
+
+        /// <summary>
+        /// Wyświetlania dat całego tygodnia w nagłówkach kolumn kalendarza
+        /// </summary>
+        /// <param name="week">Aktualnie wyświetlany tydzień</param>
+        /// Zobacz <see cref="MainWindow.InitializeWeek(DateTime)"/>
+        private void PrintWeekDates(Week week)
         {
             dateMonday.Text = week.Monday.ToString("d.MM.yyyy");
             dateTuesday.Text = week.Tuesday.ToString("d.MM.yyyy");
@@ -216,7 +333,15 @@ namespace PlannerApp
             dateSunday.Text = week.Sunday.ToString("d.MM.yyyy");
         }
 
-        // Następny tydzień
+        
+        /// <summary>
+        /// Po kliknięciu w przycisk NextWeek, wyświetla kolejny tydzień
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Czyści siatkę kalendarza, aktualizuję datę aktualnego poniedziałku i inicjuje nowy tydzień
+        /// Zobacz <see cref="MainWindow.InitializeWeek(DateTime)"/>, żeby zobaczyć inicjowanie nowego tygodnia
+        /// Zobacz także <seealso cref="MainWindow.PrevWeek_Click(object, RoutedEventArgs)"/>
         private void NextWeek_Click(object sender, RoutedEventArgs e)
         {
             calendar.Children.Clear();
@@ -224,7 +349,14 @@ namespace PlannerApp
             InitializeWeek(currentMonday);
         }
 
-        // Poprzedni tydzień
+        /// <summary>
+        /// Po kliknięciu w przycisk PrevWeek, wyświetla poprzedni tydzień
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Czyści siatkę kalendarza, aktualizuję datę aktualnego poniedziałku i inicjuje nowy tydzień
+        /// Zobacz <see cref="MainWindow.InitializeWeek(DateTime)"/>, żeby zobaczyć inicjowanie nowego tygodnia
+        /// Zobacz także <seealso cref="MainWindow.NextWeek_Click(object, RoutedEventArgs)"/>
         private void PrevWeek_Click(object sender, RoutedEventArgs e)
         {
             calendar.Children.Clear();
@@ -232,7 +364,17 @@ namespace PlannerApp
             InitializeWeek(currentMonday);
         }
 
-        // Dodawanie wydarzenia
+        
+        /// <summary>
+        /// Po kliknięciu w przycisk AddEvent dodaje nowe wydarzenie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// Sprawdza czy wszystkie pola są wypełnione. Jeśli nie są, wyświetlany jest odpowiedni komunikat.
+        /// Jeśli wybrana data nie znajduje się w aktualnie wyświetlanym tygodniu, wyświetlany jest odpowiedni komunikat.
+        /// Sprawdzana jest poprawność wybranej daty i wprowadzonej godziny. Zobacz <see cref="MainWindow.IsDateCorrect(DateTime)"/> i <see cref="MainWindow.IsHourCorrect"/>
+        /// Jeśli w wybranym dniu i o wybranej godzinie jest już dodane wydarzenie, wyświetalny jest odpowiedni komunikat.
+        /// Zobacz <see cref="MainWindow.AddEventToTheGrid(EventItem)"/>, żeby zobaczyć dodawanie wydarzenia do siatki kalendarza
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(hourBeginnig.Text) && eventDate.SelectedDate != null
@@ -250,7 +392,7 @@ namespace PlannerApp
                     else
                     {
                         week.Events.Add(task);
-                        addEventToTheGrid(task);
+                        AddEventToTheGrid(task);
                         using (var db = new EventContext())
                         {
                             db.Events.Add(task);
@@ -266,6 +408,14 @@ namespace PlannerApp
             }
         }
 
+
+        /// <summary>
+        /// Sprawdza czy wybrana data wydarzenia jest prawidłowa
+        /// </summary>
+        /// <param name="date">Data wybrana przez użytkownika</param>
+        /// <returns>Zwraca wartość bool, w zależności od tego, czy data jest prawidłowa </returns>
+        /// Data jest prawidłowa jeśli znajduje się w wyświetlanym obecnie tygodniu
+        /// Zobacz <see cref="MainWindow.AddEvent_Click(object, RoutedEventArgs)"/>
         private bool IsDateCorrect(DateTime date)
         {
             if (date.Date < currentMonday || date.Date > currentMonday.AddDays(6))
@@ -279,6 +429,15 @@ namespace PlannerApp
             }
         }
 
+
+        /// <summary>
+        /// Sprawdza czy wpisane godziny są prawidłowe
+        /// </summary>
+        /// <returns>Zwraca wartość bool, w zależności od tego, czy godziny są prawidłowe</returns>
+        /// Jeśli wpisane godziny nie są pomiędzy 7 a 18 - wyświetla odpoweidni komunikat i zwraca false
+        /// Jeśli koniec wydarzenia jest przed początkiem - wyświetla odpoweidni komunikat i zwraca false
+        /// <exception cref="FormatException">Wyrzucany jeśli wpisane wartości nie są typu Integer</exception>
+        /// Zobacz <see cref="MainWindow.AddEvent_Click(object, RoutedEventArgs)"/>
         private bool IsHourCorrect()
         {
             int beginnig;

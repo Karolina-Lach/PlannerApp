@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ApiLibrary
 {
+
+    /// <summary>
+    /// Klasa <c>Root</c> odpowiada modelowi pobieranego z sytememu API w formacie JSON.
+    /// </summary>
     public class Root
     {
         public Coord coord { get; set; }
