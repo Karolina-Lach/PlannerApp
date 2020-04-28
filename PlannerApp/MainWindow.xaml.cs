@@ -27,27 +27,39 @@ namespace PlannerApp
       /// Można dodać zadanie i usunąć wybrane zadanie
       /// </summary>
         ObservableCollection<TodoItem> items = new ObservableCollection<TodoItem>();
+        ToDoItemDb toDoItemDb = new ToDoItemDb();     // tworzenie instacji klasy obsługującej bazę danych
+
         public MainWindow()
         {
             InitializeComponent();
 
-            items.Add(new TodoItem() { Description = "Complete this project", Deadline = new DateTime(2020, 5, 1), IsDone = false });
-            items.Add(new TodoItem() { Description = "Review exam material", Deadline = new DateTime(2020, 6, 1), IsDone = false });
-            items.Add(new TodoItem() { Description = "Plan a party", Deadline = new DateTime(2020, 4, 10), IsDone = false });
+            items = toDoItemDb.loadFromDataBase();  // funkcja która pobiera z bazy 
 
             todoList.ItemsSource = items;
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate != null)
+            try
             {
-                items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
-                todoList.ItemsSource = items;
+                if (!string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate != null)
+                {
+                    items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
+                    todoList.ItemsSource = items;
+                    toDoItemDb.sendToDataBase(descirptionBox.Text, deadlineBox.SelectedDate.Value, false);  // wywołanie funkcji dodającej wpisy do bazy 
+                }
+                else
+                    throw new ArgumentNullException("Null Argument");
             }
-            else
+            catch
             {
-                // błąd -- obsługa póżniej 
+                if (string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate == null)
+                    MessageBox.Show("Wpisz nazwę wydarzenia i wybierz datę wydarzenia");
+                else if (string.IsNullOrWhiteSpace(descirptionBox.Text))
+                    MessageBox.Show("Wpisz nazwę wydarzenia");
+                else if (deadlineBox.SelectedDate == null)
+                    MessageBox.Show("Wybierz datę wydarzenia");
+               
             }
         }
 
