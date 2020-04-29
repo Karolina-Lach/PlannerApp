@@ -132,6 +132,15 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="api\.gitignore" />
+    <Resource Include="load.png" />
+    <Resource Include="next.png" />
+    <Resource Include="prev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pictures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
