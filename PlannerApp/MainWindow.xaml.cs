@@ -47,6 +47,8 @@ namespace PlannerApp
                     items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
                     todoList.ItemsSource = items;
                     toDoItemDb.sendToDataBase(descirptionBox.Text, deadlineBox.SelectedDate.Value, false);  // wywołanie funkcji dodającej wpisy do bazy 
+                    descirptionBox.Text = "";
+                    deadlineBox.SelectedDate = null;
                 }
                 else
                     throw new ArgumentNullException("Null Argument");
@@ -59,13 +61,28 @@ namespace PlannerApp
                     MessageBox.Show("Wpisz nazwę wydarzenia");
                 else if (deadlineBox.SelectedDate == null)
                     MessageBox.Show("Wybierz datę wydarzenia");
-               
+
             }
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            items.Remove((TodoItem)todoList.SelectedItem);
+            try
+            {                    
+                int selectedIndex = todoList.SelectedIndex;
+                Object selectItem = todoList.SelectedItem;
+                if(selectedIndex!=0)
+                {
+                    items.Remove((TodoItem)selectItem);
+                    toDoItemDb.UsunZBazy((TodoItem)selectItem);  //  wywołanie funkcji usuwającej wpisy z bazy 
+                }
+                else
+                    throw new ArgumentNullException("NullArgument");
+            }
+            catch
+            {
+                MessageBox.Show("Wybierz element do usunęcia");
+            }
         }
     }
 }
