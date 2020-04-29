@@ -27,33 +27,62 @@ namespace PlannerApp
       /// Można dodać zadanie i usunąć wybrane zadanie
       /// </summary>
         ObservableCollection<TodoItem> items = new ObservableCollection<TodoItem>();
+        ToDoItemDb toDoItemDb = new ToDoItemDb();     // tworzenie instacji klasy obsługującej bazę danych
+
         public MainWindow()
         {
             InitializeComponent();
 
-            items.Add(new TodoItem() { Description = "Complete this project", Deadline = new DateTime(2020, 5, 1), IsDone = false });
-            items.Add(new TodoItem() { Description = "Review exam material", Deadline = new DateTime(2020, 6, 1), IsDone = false });
-            items.Add(new TodoItem() { Description = "Plan a party", Deadline = new DateTime(2020, 4, 10), IsDone = false });
+            items = toDoItemDb.loadFromDataBase();  // funkcja która pobiera z bazy 
 
             todoList.ItemsSource = items;
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate != null)
+            try
             {
-                items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
-                todoList.ItemsSource = items;
+                if (!string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate != null)
+                {
+                    items.Add(new TodoItem() { Description = descirptionBox.Text, Deadline = (DateTime)deadlineBox.SelectedDate, IsDone = false });
+                    todoList.ItemsSource = items;
+                    toDoItemDb.sendToDataBase(descirptionBox.Text, deadlineBox.SelectedDate.Value, false);  // wywołanie funkcji dodającej wpisy do bazy 
+                    descirptionBox.Text = "";
+                    deadlineBox.SelectedDate = null;
+                }
+                else
+                    throw new ArgumentNullException("Null Argument");
             }
-            else
+            catch
             {
-                // błąd -- obsługa póżniej 
+                if (string.IsNullOrWhiteSpace(descirptionBox.Text) && deadlineBox.SelectedDate == null)
+                    MessageBox.Show("Wpisz nazwę wydarzenia i wybierz datę wydarzenia");
+                else if (string.IsNullOrWhiteSpace(descirptionBox.Text))
+                    MessageBox.Show("Wpisz nazwę wydarzenia");
+                else if (deadlineBox.SelectedDate == null)
+                    MessageBox.Show("Wybierz datę wydarzenia");
+
             }
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            items.Remove((TodoItem)todoList.SelectedItem);
+            try
+            {                    
+                int selectedIndex = todoList.SelectedIndex;
+                Object selectItem = todoList.SelectedItem;
+                if(selectedIndex!=0)
+                {
+                    items.Remove((TodoItem)selectItem);
+                    toDoItemDb.UsunZBazy((TodoItem)selectItem);  //  wywołanie funkcji usuwającej wpisy z bazy 
+                }
+                else
+                    throw new ArgumentNullException("NullArgument");
+            }
+            catch
+            {
+                MessageBox.Show("Wybierz element do usunęcia");
+            }
         }
     }
 }
