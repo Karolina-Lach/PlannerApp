@@ -25,7 +25,7 @@ namespace PlannerApp
     ///     <description>Obliczanie kolumny rzędu w siatce kalendarza</description>
     /// </item>
     /// </list>
-    static class Functions
+    public static class Functions
     {
 
         /// <summary>
@@ -54,7 +54,10 @@ namespace PlannerApp
         /// <seealso cref="Functions.DayToColumn(DateTime)"/>
         public static int HourToRow(int hour)
         {
-            return hour - 7;
+            if (hour > 18 || hour < 7)
+                return -1;
+            else
+                return hour - 7;
         }
 
         /// <summary>

@@ -48,12 +48,12 @@
             <!-- PRZYCISKI NEXT I PREV -->
             <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="0,20,0,0">
                 <Button Width="35" Height="35" Click="PrevWeek_Click">
-                    <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\prev.png" Width="30" Height="30"/>
+                    <Image  Source="prev.png" Width="30" Height="30"/>
                 </Button>
             </Grid>
             <Grid Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="0,20,0,0">
                 <Button Width="35" Height="35" Click="NextWeek_Click">
-                    <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\next.png" Width="30" Height="30"/>
+                    <Image  Source="next.png" Width="30" Height="30"/>
                 </Button>
             </Grid>
             <!-- WYPISANIE GODZIN -->
@@ -197,7 +197,7 @@
                     <TextBox Name ="cityNameForm" Width="120" Margin="0,0,5,0" />
                     <Button Content="Zmień miasto" Width="100" FontSize="10" Click="ChangeCity_Click" Margin="0,0,5,0" />
                     <Button Click="Reload_Click" >
-                        <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\load.png" Width="15"/>
+                        <Image Source="load.png" Width="15"/>
                     </Button>
 
                 </StackPanel>
