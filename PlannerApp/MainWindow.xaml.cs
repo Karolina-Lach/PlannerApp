@@ -258,7 +258,7 @@ namespace PlannerApp
             }
             else
             {
-                MessageBox.Show("Enter the city name!");
+                MessageBox.Show("Podaj nazwę miasta!");
             }
         }
 
@@ -411,7 +411,7 @@ namespace PlannerApp
                     EventItem task = new EventItem(date.Date, Convert.ToInt32(hourBeginnig.Text), Convert.ToInt32(hourEnd.Text), nameEvent.Text);
                     if (week.Events.Find(x => (x.Date == task.Date) && (x.Beginning == task.Beginning)) != null)
                     {
-                        MessageBox.Show("You already have plans!");
+                        MessageBox.Show("Masz już plany w tym czasie!");
                         return;
                     }
                     else
@@ -429,7 +429,7 @@ namespace PlannerApp
             }
             else
             {
-                MessageBox.Show("Fill all the fields!");
+                MessageBox.Show("Wypełnij wszystkie pola!");
             }
         }
 
@@ -445,7 +445,7 @@ namespace PlannerApp
         {
             if (date.Date < currentMonday || date.Date > currentMonday.AddDays(6))
             {
-                MessageBox.Show("Pick a date in a current week, please");
+                MessageBox.Show("Proszę podać datę w wyświetlanym tygodniu");
                 return false;
             }
             else
@@ -474,19 +474,19 @@ namespace PlannerApp
 
                 if ((beginnig < 7 || beginnig > 18) || (end < 7 || end > 18))
                 {
-                    MessageBox.Show("Hours have to be between 7 and 18");
+                    MessageBox.Show("Godziny muszą być między 7 a 18");
                     return false;
                 }
 
                 if (end - beginnig <= 0)
                 {
-                    MessageBox.Show("You can't finish the task before you started it :)");
+                    MessageBox.Show("Nie możesz skończyć spotkania zanim je zaczniesz :)");
                     return false;
                 }
             }
             catch (System.FormatException)
             {
-                MessageBox.Show("Hours have to be integers");
+                MessageBox.Show("Podaj pełną godzinę");
                 return false;
             }
 

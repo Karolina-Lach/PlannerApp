@@ -72,44 +72,44 @@
             <!-- WYPISANIE DNI TYGODNIA -->
             <Grid Grid.Column="1" Grid.Row="0" ShowGridLines="True" VerticalAlignment="Center" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Monday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock Text="Poniedziałek" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBlock x:Name="dateMonday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Label Grid.Column="1" Grid.Row="3" x:Name="Monday9"/>
             <Grid Grid.Column="2" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Tuesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock Text="Wtorek" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBlock x:Name="dateTuesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="3" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Wednesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" />
+                    <TextBlock Text="Środa" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" />
                     <TextBlock x:Name="dateWednesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="4" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Thursday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock Text="Czwartek" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBlock x:Name="dateThursday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="5" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Friday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock Text="Piątek" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBlock x:Name="dateFriday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="6" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Saturday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,-1,0,0" />
+                    <TextBlock Text="Sobota" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,-1,0,0" />
                     <TextBlock x:Name="dateSaturday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="7" Grid.Row="0" >
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Sunday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <TextBlock Text="Niedziela" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBlock x:Name="dateSunday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
                 </StackPanel>
             </Grid>
@@ -143,17 +143,17 @@
             
             <!-- DODAWANIE NOWEGO WYDARZENIA -->
             <StackPanel Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="2">
-                <Label  Content="Pick a date in a current week:" />
+                <Label  Content="Wybierz datę w tygodniu:" />
                 <DatePicker Name="eventDate"/>
             </StackPanel>
             <StackPanel Grid.Column="3" Grid.Row="13" >
-                <Label  Content="From:" HorizontalAlignment="Center" />
+                <Label  Content="Od:" HorizontalAlignment="Center" />
                 <TextBox x:Name="hourBeginnig" Width="50"/>
-                <Label  Content="To:" HorizontalAlignment="Center" />
+                <Label  Content="Do:" HorizontalAlignment="Center" />
                 <TextBox x:Name="hourEnd" Width="50"/>
             </StackPanel>
             <StackPanel Grid.Column="4" Grid.Row="13" Grid.ColumnSpan="2">
-                <Label Content="Enter the name of the event" />
+                <Label Content="Nazwa wydarzenia" />
                 <TextBox x:Name="nameEvent" />
             </StackPanel>
             <Button Grid.Column="6" Grid.Row="13" Content="Add" Width="50" Height="20" Click="AddEvent_Click"/>
@@ -189,13 +189,13 @@
                     <Image Grid.Column="0" x:Name="weatherImage"/>
                     <StackPanel Grid.Column="1" >
                         <TextBlock x:Name="temperatureText"  Text ="15" TextWrapping="Wrap" FontSize="36" HorizontalAlignment="Center" ><Run FontFamily="Arial Narrow" /></TextBlock>
-                        <TextBlock x:Name="descText" Text="Clear sky" HorizontalAlignment="Center" FontSize="20"><Run FontFamily="Arial Narrow" Text=""/></TextBlock>
+                        <TextBlock x:Name="descText" Text="Clear sky" HorizontalAlignment="Center" FontSize="15"><Run FontFamily="Arial Narrow" Text=""/></TextBlock>
                     </StackPanel>
                 </Grid>
                 <TextBlock  Grid.Row="1" x:Name="cityName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5"  >
                     <TextBox Name ="cityNameForm" Width="120" Margin="0,0,5,0" />
-                    <Button Content="Change the city" Width="100" FontSize="10" Click="ChangeCity_Click" Margin="0,0,5,0" />
+                    <Button Content="Zmień miasto" Width="100" FontSize="10" Click="ChangeCity_Click" Margin="0,0,5,0" />
                     <Button Click="Reload_Click" >
                         <Image  Source="C:\Users\klach\Documents\GitHub\PlannerApp\PlannerApp\load.png" Width="15"/>
                     </Button>
@@ -208,7 +208,7 @@
             <ListView Grid.Row="1" Grid.Column="0" Name="todoList"  MaxHeight="300">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
+                        <GridViewColumn Header="Opis" DisplayMemberBinding="{Binding Description}" />
                         <GridViewColumn Header="Deadline" DisplayMemberBinding="{Binding Deadline, StringFormat=dd/MM/yyyy}" />
                         <GridViewColumn >
                             <GridViewColumn.CellTemplate>
@@ -221,13 +221,13 @@
                 </ListView.View>
             </ListView>
             <StackPanel Grid.Row="2" Grid.Column="0">
-                <Label  Content="Enter description" />
+                <Label  Content="Podaj opis" />
                 <TextBox Name="descirptionBox" />
-                <Label Content="Pick a deadline"/>
+                <Label Content="Podaj deadline"/>
                 <DatePicker Name="deadlineBox" />
                 <StackPanel Orientation="Horizontal" >
-                    <Button Width="100" Height="30" Name="addItem" Click="AddItem_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">Add Item</Button>
-                    <Button Width="100" Height="30" Name="removeItem" Click="RemoveItem_Click" Margin="10,0" >Remove Selected</Button>
+                    <Button Width="100" Height="30" Name="addItem" Click="AddItem_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">Dodaj</Button>
+                    <Button Width="100" Height="30" Name="removeItem" Click="RemoveItem_Click" Margin="10,0" >Usuń</Button>
                 </StackPanel>
             </StackPanel>
         </Grid>
