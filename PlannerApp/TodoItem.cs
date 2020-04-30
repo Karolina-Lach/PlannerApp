@@ -12,7 +12,7 @@ namespace PlannerApp
     /// Klasa <c>TodoItem</c>
     /// Zawiera model elementu listy rzeczy do zrobienia
     /// </summary>
-    class TodoItem
+    public class TodoItem
     {
 
         /// <summary>

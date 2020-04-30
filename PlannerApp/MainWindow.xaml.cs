@@ -222,23 +222,28 @@ namespace PlannerApp
             {
                 City.nameOfTheCity = "Wrocław";
             }
+            try
+            {
+                var weather = await WeatherProcessor.LoadWeatherInfo(City.nameOfTheCity);
+                double temp = weather.main.temp;
+                int celsius = (int)(temp - 273.15);
+                temperatureText.Text = $"{ celsius } ℃";
 
-            var weather = await WeatherProcessor.LoadWeatherInfo(City.nameOfTheCity);
-            double temp = weather.main.temp;
-            int celsius = (int)(temp - 273.15);
-            temperatureText.Text = $"{ celsius } ℃";
+                Weather[] array = weather.weather.ToArray();
 
-            Weather[] array = weather.weather.ToArray();
+                descText.Text = array[0].description;
 
-            descText.Text = array[0].description;
+                string img = $"http://openweathermap.org/img/wn/{ array[0].icon }@2x.png";
+                var uriSource = new Uri(img, UriKind.Absolute);
+                weatherImage.Source = new BitmapImage(uriSource);
 
-            string img = $"http://openweathermap.org/img/wn/{ array[0].icon }@2x.png";
-            var uriSource = new Uri(img, UriKind.Absolute);
-            weatherImage.Source = new BitmapImage(uriSource);
-
-            City.nameOfTheCity = weather.name;
-            cityName.Text = City.nameOfTheCity;
-
+                City.nameOfTheCity = weather.name;
+                cityName.Text = City.nameOfTheCity;
+            }
+            catch
+            {
+                    MessageBox.Show("Błędna nazwa miasta");
+            }
         }
 
         
@@ -251,15 +256,24 @@ namespace PlannerApp
         /// Jeśli TextBox jest pusty, wyświetla odpowiedni komunikat
         private async void ChangeCity_Click(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrEmpty(cityNameForm.Text))
+            try
             {
-                City.nameOfTheCity = cityNameForm.Text;
-                await LoadInfo();
-            }
-            else
+                if (!string.IsNullOrEmpty(cityNameForm.Text))
+                {
+                    City.nameOfTheCity = cityNameForm.Text;
+                    await LoadInfo();
+                }
+                else
+                {
+                    throw new ArgumentException("No Name");
+                }
+            }             
+            catch (Exception exeption)
             {
-                MessageBox.Show("Podaj nazwę miasta!");
+                if (exeption.Message == "No Name")
+                    MessageBox.Show("Podaj nazwę miasta!");
             }
+
         }
 
         
@@ -270,7 +284,16 @@ namespace PlannerApp
         /// <param name="e"></param>
         private async void Reload_Click(object sender, RoutedEventArgs e)
         {
-            await LoadInfo();
+            try
+            {
+                    await LoadInfo();
+            }
+            catch (ArgumentException exeption)
+            {
+                if (exeption.Message == "Valid City Name")
+                    MessageBox.Show("Błędna nazwa miasta!");
+
+            }
         }
 
 
